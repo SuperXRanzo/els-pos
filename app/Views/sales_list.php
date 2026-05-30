@@ -73,11 +73,11 @@
 
         .table-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
 
-        .table-head { display: grid; grid-template-columns: 160px 1fr 1fr 1fr 1fr 40px; gap: 0; padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--border); }
+        .table-head { display: grid; grid-template-columns: 160px 1fr 1fr 1fr 1fr 140px 40px; gap: 0; padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--border); }
         .th { font-size: 0.72rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
 
         .txn-row {
-            display: grid; grid-template-columns: 160px 1fr 1fr 1fr 1fr 40px;
+            display: grid; grid-template-columns: 160px 1fr 1fr 1fr 1fr 140px 40px;
             padding: 0 1.5rem; border-bottom: 1px solid var(--border);
             transition: background 0.15s; cursor: pointer; position: relative;
         }
@@ -113,6 +113,45 @@
         .page-btn:hover { background: rgba(255,255,255,0.07); }
         .page-btn.active { background: rgba(222,255,154,0.15); border-color: rgba(222,255,154,0.3); color: var(--lime); font-weight: 700; }
         .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .change-badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            font-family: 'Syne', sans-serif;
+        }
+        .change-badge.lunas {
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+        .change-badge.lebih {
+            background: rgba(222, 255, 154, 0.15);
+            color: var(--lime);
+            border: 1px solid rgba(222, 255, 154, 0.3);
+        }
+
+        .btn-export {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1rem;
+            background: rgba(222, 255, 154, 0.1);
+            border: 1px solid rgba(222, 255, 154, 0.2);
+            border-radius: 10px;
+            color: var(--lime);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-export:hover {
+            background: rgba(222, 255, 154, 0.2);
+            border-color: rgba(222, 255, 154, 0.4);
+        }
+        .btn-export svg { width: 16px; height: 16px; }
     </style>
 </head>
 <body>
@@ -142,31 +181,37 @@
 <main class="main">
     <div class="topbar">
         <div class="page-title">Riwayat Penjualan</div>
-        <a href="/sales/create" class="btn-new">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Transaksi Baru
-        </a>
+        <div style="display: flex; gap: 0.75rem;">
+            <button class="btn-export" onclick="exportToCSV()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export CSV
+            </button>
+            <a href="/sales/create" class="btn-new">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Transaksi Baru
+            </a>
+        </div>
     </div>
 
     <div class="stats-strip">
         <div class="strip-card">
             <div>
                 <div class="strip-label">Total Transaksi</div>
-                <div class="strip-value"><?= count($sales) ?></div>
+                <div class="strip-value"><?= count($sales ?? []) ?></div>
             </div>
             <div class="strip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
         </div>
         <div class="strip-card">
             <div>
                 <div class="strip-label">Total Pendapatan</div>
-                <div class="strip-value">Rp <?= number_format(array_sum(array_column($sales, 'total')), 0, ',', '.') ?></div>
+                <div class="strip-value">Rp <?= number_format(array_sum(array_column($sales ?? [], 'total')), 0, ',', '.') ?></div>
             </div>
             <div class="strip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         </div>
         <div class="strip-card">
             <div>
                 <div class="strip-label">Rata-rata Transaksi</div>
-                <div class="strip-value">Rp <?= count($sales) > 0 ? number_format(array_sum(array_column($sales, 'total')) / count($sales), 0, ',', '.') : '0' ?></div>
+                <div class="strip-value">Rp <?= (count($sales ?? []) > 0) ? number_format(array_sum(array_column($sales ?? [], 'total')) / count($sales ?? []), 0, ',', '.') : '0' ?></div>
             </div>
             <div class="strip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
         </div>
@@ -177,6 +222,12 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <input type="text" class="search-input" id="search-input" placeholder="Cari nomor invoice...">
         </div>
+        <select class="filter-select" id="date-filter" onchange="filterByDate(this.value)">
+            <option value="">Semua Tanggal</option>
+            <option value="today">Hari Ini</option>
+            <option value="week">Minggu Ini</option>
+            <option value="month">Bulan Ini</option>
+        </select>
         <select class="filter-select" id="sort-select">
             <option value="newest">Terbaru</option>
             <option value="oldest">Terlama</option>
@@ -192,22 +243,28 @@
             <div class="th">Total</div>
             <div class="th">Dibayar</div>
             <div class="th">Kembalian</div>
+            <div class="th">Status</div>
             <div class="th"></div>
         </div>
         <div id="table-body">
-            <?php if (empty($sales)): ?>
+            <?php if (empty($sales ?? [])): ?>
             <div class="empty-row">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                 <p>Belum ada transaksi</p>
             </div>
             <?php else: ?>
-                <?php foreach ($sales as $idx => $s): ?>
-                <div class="txn-row" id="row-<?= $idx ?>" onclick="toggleDetail(<?= $idx ?>)" data-invoice="<?= strtolower($s['invoice']) ?>">
+                <?php foreach (($sales ?? []) as $idx => $s): ?>
+                <div class="txn-row" id="row-<?= $idx ?>" onclick="toggleDetail(<?= $idx ?>)" data-invoice="<?= strtolower($s['invoice']) ?>" data-date="<?= $s['created_at'] ?>">
                     <div class="td invoice-col"><?= $s['invoice'] ?></div>
                     <div class="td"><?= $s['created_at'] ?></div>
                     <div class="td amount">Rp <?= number_format($s['total'], 0, ',', '.') ?></div>
                     <div class="td">Rp <?= number_format($s['cash_paid'], 0, ',', '.') ?></div>
                     <div class="td">Rp <?= number_format($s['change_amount'], 0, ',', '.') ?></div>
+                    <div class="td">
+                        <span class="change-badge <?= ($s['change_amount'] == 0) ? 'lunas' : 'lebih' ?>">
+                            <?= ($s['change_amount'] == 0) ? 'Lunas' : 'Lebih' ?>
+                        </span>
+                    </div>
                     <div class="td expand-btn">
                         <div class="expand-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
@@ -247,6 +304,10 @@
 
 <script>
     let openIdx = null;
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    let allRows = [];
+
     function toggleDetail(idx) {
         const row    = document.getElementById('row-' + idx);
         const detail = document.getElementById('detail-' + idx);
@@ -264,16 +325,165 @@
         openIdx = isOpen ? idx : null;
     }
 
-    document.getElementById('search-input').addEventListener('input', function() {
-        const q = this.value.toLowerCase();
+    function getVisibleRows() {
+        const rows = [];
         document.querySelectorAll('.txn-row').forEach(row => {
-            const inv = row.getAttribute('data-invoice') || '';
-            const visible = !q || inv.includes(q);
+            if (row.style.display !== 'none') {
+                rows.push(row);
+            }
+        });
+        return rows;
+    }
+
+    function updatePagination() {
+        const visibleRows = getVisibleRows();
+        const totalPages = Math.ceil(visibleRows.length / itemsPerPage);
+        const paginationEl = document.getElementById('pagination');
+        paginationEl.innerHTML = '';
+
+        if (totalPages <= 1) return;
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'page-btn';
+            if (i === currentPage) btn.classList.add('active');
+            btn.textContent = i;
+            btn.disabled = i === currentPage;
+            btn.onclick = () => {
+                currentPage = i;
+                showPage(i);
+            };
+            paginationEl.appendChild(btn);
+        }
+    }
+
+    function showPage(page) {
+        const visibleRows = getVisibleRows();
+        const totalPages = Math.ceil(visibleRows.length / itemsPerPage);
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        visibleRows.forEach((row, idx) => {
+            if (idx >= start && idx < end) {
+                row.style.display = '';
+                const detailId = row.id.replace('row-', 'detail-');
+                const detail = document.getElementById(detailId);
+                if (detail) detail.style.display = '';
+            } else {
+                row.style.display = 'none';
+                const detailId = row.id.replace('row-', 'detail-');
+                const detail = document.getElementById(detailId);
+                if (detail) detail.style.display = 'none';
+            }
+        });
+
+        updatePagination();
+        window.scrollTo(0, 0);
+    }
+
+    function filterByDate(period) {
+        const now = new Date();
+        let startDate = new Date();
+
+        if (period === 'today') {
+            startDate.setHours(0, 0, 0, 0);
+        } else if (period === 'week') {
+            startDate.setDate(now.getDate() - now.getDay());
+            startDate.setHours(0, 0, 0, 0);
+        } else if (period === 'month') {
+            startDate.setDate(1);
+            startDate.setHours(0, 0, 0, 0);
+        } else {
+            startDate = new Date(0);
+        }
+
+        document.querySelectorAll('.txn-row').forEach(row => {
+            const dateStr = row.getAttribute('data-date');
+            if (!dateStr) { row.style.display = ''; return; }
+
+            const rowDate = new Date(dateStr.split(' ')[0]);
+            const visible = rowDate >= startDate;
             row.style.display = visible ? '' : 'none';
             const detail = document.getElementById(row.id.replace('row-','detail-'));
-            if (!visible && detail) { detail.classList.remove('show'); row.classList.remove('expanded'); }
+            if (!visible && detail) { detail.style.display = 'none'; row.classList.remove('expanded'); }
         });
-    });
+
+        currentPage = 1;
+        applySearchAndSort();
+    }
+
+    function applySearchAndSort() {
+        const searchQ = document.getElementById('search-input').value.toLowerCase();
+        const sortBy = document.getElementById('sort-select').value;
+        
+        let visibleRows = getVisibleRows().filter(row => {
+            const inv = row.getAttribute('data-invoice') || '';
+            return !searchQ || inv.includes(searchQ);
+        });
+
+        // Sort the rows
+        const tableBody = document.getElementById('table-body');
+        visibleRows.sort((a, b) => {
+            if (sortBy === 'newest') return 0; // Keep original order
+            if (sortBy === 'oldest') return 0;
+            if (sortBy === 'highest' || sortBy === 'lowest') {
+                const aAmount = parseInt(a.querySelectorAll('.td')[2].textContent.replace(/\D/g, '')) || 0;
+                const bAmount = parseInt(b.querySelectorAll('.td')[2].textContent.replace(/\D/g, '')) || 0;
+                return sortBy === 'highest' ? bAmount - aAmount : aAmount - bAmount;
+            }
+            return 0;
+        });
+
+        // Reorder visible rows in DOM
+        visibleRows.forEach(row => {
+            const detailId = row.id.replace('row-', 'detail-');
+            const detail = document.getElementById(detailId);
+            if (detail) {
+                tableBody.appendChild(row);
+                tableBody.appendChild(detail);
+            }
+        });
+
+        currentPage = 1;
+        showPage(1);
+    }
+
+    document.getElementById('search-input').addEventListener('input', applySearchAndSort);
+    document.getElementById('sort-select').addEventListener('change', applySearchAndSort);
+
+    function exportToCSV() {
+        const rows = [];
+        const headers = ['Invoice', 'Tanggal', 'Total', 'Dibayar', 'Kembalian'];
+        rows.push(headers.join(','));
+
+        document.querySelectorAll('.txn-row').forEach(row => {
+            if (row.style.display !== 'none') {
+                const cells = row.querySelectorAll('.td');
+                const rowData = [
+                    cells[0].textContent.trim(),
+                    cells[1].textContent.trim(),
+                    cells[2].textContent.trim().replace(/\D/g, ''),
+                    cells[3].textContent.trim().replace(/\D/g, ''),
+                    cells[4].textContent.trim().replace(/\D/g, '')
+                ];
+                rows.push(rowData.map(v => `"${v}"`).join(','));
+            }
+        });
+
+        const csv = rows.join('\n');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `sales_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    }
+
+    // Initialize pagination
+    showPage(1);
 </script>
 </body>
 </html>

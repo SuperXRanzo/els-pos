@@ -201,6 +201,193 @@
         }
         .toast.show { transform: translateY(0); opacity: 1; }
         .toast svg { width: 16px; height: 16px; }
+
+        .sidebar-summary {
+            background: rgba(222, 255, 154, 0.08);
+            border: 1px solid rgba(222, 255, 154, 0.15);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .summary-label {
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+        }
+        .summary-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--lime);
+        }
+        .summary-label.second { margin-top: 0.8rem; margin-bottom: 0.3rem; }
+
+        .barcode-input { display: none; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.show { display: flex; }
+        .modal-content {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        .modal-desc {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+        .modal-summary {
+            background: rgba(222, 255, 154, 0.06);
+            border: 1px solid rgba(222, 255, 154, 0.15);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .ms-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        .ms-label { color: var(--muted); }
+        .ms-value { font-weight: 700; color: var(--lime); }
+        .ms-row.total { border-top: 1px solid rgba(222, 255, 154, 0.2); padding-top: 0.8rem; margin-top: 0.8rem; font-size: 1.1rem; }
+        .modal-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+        .modal-btn {
+            flex: 1;
+            padding: 0.85rem;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .modal-btn.cancel {
+            background: var(--card2);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .modal-btn.cancel:hover { background: rgba(255, 255, 255, 0.07); }
+        .modal-btn.confirm {
+            background: var(--success);
+            color: #0a0f1e;
+        }
+        .modal-btn.confirm:hover { opacity: 0.9; }
+        .modal-btn.confirm:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .receipt {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            color: #000;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            z-index: 1001;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease-out;
+        }
+        .receipt.show { display: block; }
+        .receipt-header {
+            text-align: center;
+            border-bottom: 2px dashed #000;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        .receipt-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .receipt-subtitle { font-size: 0.8rem; color: #666; }
+        .receipt-items {
+            margin-bottom: 1rem;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 1rem;
+        }
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .receipt-item-name { flex: 1; }
+        .receipt-item-qty { text-align: right; margin: 0 1rem; width: 50px; }
+        .receipt-item-price { text-align: right; width: 80px; }
+        .receipt-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .receipt-change {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .receipt-footer {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px dashed #ccc;
+            font-size: 0.75rem;
+            color: #666;
+        }
+        .receipt-close {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+        .receipt-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .receipt-btn.print {
+            background: #000;
+            color: #fff;
+        }
+        .receipt-btn.print:hover { background: #333; }
+        .receipt-btn.done {
+            background: #deff9a;
+            color: #000;
+        }
+        .receipt-btn.done:hover { opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -221,6 +408,12 @@
         Transaksi Baru
     </a>
     <div class="sidebar-spacer"></div>
+    <div class="sidebar-summary">
+        <div class="summary-label">Item dalam Keranjang</div>
+        <div class="summary-value" id="sidebar-item-count">0</div>
+        <div class="summary-label second">Total Transaksi</div>
+        <div class="summary-value" id="sidebar-total">Rp 0</div>
+    </div>
     <a href="/logout" class="nav-logout">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         Keluar
@@ -230,10 +423,11 @@
 <main class="main">
     <div class="page-title">Kasir / Transaksi Baru</div>
     <div class="page-sub">
-        No. Invoice: <span class="invoice-badge"><?= $invoice ?></span>
+        No. Invoice: <span class="invoice-badge"><?= isset($invoice) ? $invoice : 'INV-' . date('YmdHis') ?></span>
     </div>
 
-    <input type="hidden" id="invoice-val" value="<?= $invoice ?>">
+    <input type="hidden" id="invoice-val" value="<?= isset($invoice) ? $invoice : 'INV-' . date('YmdHis') ?>">
+    <input type="hidden" id="barcode-input" class="barcode-input">
 
     <div class="kasir-grid">
         <div class="panel">
@@ -274,7 +468,7 @@
             <script id="products-data" type="application/json">
             <?php
             $productsJson = [];
-            foreach ($products as $p) {
+            foreach (($products ?? []) as $p) {
                 $productsJson[] = [
                     'id'    => $p['id'],
                     'name'  => $p['name'],
@@ -340,6 +534,67 @@
 <div class="toast" id="toast">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
     <span id="toast-msg">Produk ditambahkan!</span>
+</div>
+
+<div class="modal" id="confirmation-modal">
+    <div class="modal-content">
+        <div class="modal-title">Konfirmasi Transaksi</div>
+        <div class="modal-desc">Pastikan semua data sudah benar sebelum memproses</div>
+        <div class="modal-summary">
+            <div class="ms-row">
+                <span class="ms-label">Jumlah Item</span>
+                <span class="ms-value" id="conf-item-count">0</span>
+            </div>
+            <div class="ms-row">
+                <span class="ms-label">Total Belanja</span>
+                <span class="ms-value" id="conf-total">Rp 0</span>
+            </div>
+            <div class="ms-row">
+                <span class="ms-label">Uang Diterima</span>
+                <span class="ms-value" id="conf-cash">Rp 0</span>
+            </div>
+            <div class="ms-row total">
+                <span class="ms-label">Uang Kembali</span>
+                <span class="ms-value" id="conf-change">Rp 0</span>
+            </div>
+        </div>
+        <div class="modal-buttons">
+            <button class="modal-btn cancel" onclick="closeConfirmation()">Batal</button>
+            <button class="modal-btn confirm" id="confirm-btn" onclick="confirmTransaction()">Proses</button>
+        </div>
+    </div>
+</div>
+
+<div class="receipt" id="receipt">
+    <div class="receipt-header">
+        <div class="receipt-title">ELS POS</div>
+        <div class="receipt-subtitle">Bukti Transaksi</div>
+    </div>
+    <div style="text-align: center; margin-bottom: 1rem; font-size: 0.8rem;">
+        <div>Invoice: <strong id="receipt-invoice">—</strong></div>
+        <div style="color: #666;">Waktu: <span id="receipt-time">—</span></div>
+    </div>
+    <div class="receipt-items" id="receipt-items"></div>
+    <div class="receipt-total">
+        <span>Total:</span>
+        <span id="receipt-total-amount">Rp 0</span>
+    </div>
+    <div class="receipt-change">
+        <span>Dibayar:</span>
+        <span id="receipt-paid-amount">Rp 0</span>
+    </div>
+    <div class="receipt-total">
+        <span>Kembali:</span>
+        <span id="receipt-change-amount">Rp 0</span>
+    </div>
+    <div class="receipt-footer">
+        <p>Terima kasih telah berbelanja!</p>
+        <p style="margin-top: 0.5rem;">© 2025 ELS Systems</p>
+    </div>
+    <div class="receipt-close">
+        <button class="receipt-btn print" onclick="window.print()">Cetak</button>
+        <button class="receipt-btn done" onclick="doneReceipt()">Selesai</button>
+    </div>
 </div>
 
 <script>
@@ -456,6 +711,8 @@
             emptyEl.style.display = '';
             document.getElementById('grand-total').textContent = '0';
             document.getElementById('btn-checkout').disabled = true;
+            document.getElementById('sidebar-item-count').textContent = '0';
+            document.getElementById('sidebar-total').textContent = 'Rp 0';
             calcChange();
             return;
         }
@@ -485,6 +742,8 @@
 
         document.getElementById('grand-total').textContent = grandTotal.toLocaleString('id-ID');
         document.getElementById('btn-checkout').disabled = false;
+        document.getElementById('sidebar-item-count').textContent = cart.length;
+        document.getElementById('sidebar-total').textContent = 'Rp ' + grandTotal.toLocaleString('id-ID');
         calcChange();
     }
 
@@ -530,6 +789,27 @@
         const cash = parseFloat(document.getElementById('cash-input').value) || 0;
         if (cash < grandTotal) { showToast('Uang pembayaran kurang!', 'error'); return; }
         const change = cash - grandTotal;
+        showConfirmation(cash, change);
+    });
+
+    function showConfirmation(cash, change) {
+        document.getElementById('conf-item-count').textContent = cart.length;
+        document.getElementById('conf-total').textContent = 'Rp ' + grandTotal.toLocaleString('id-ID');
+        document.getElementById('conf-cash').textContent = 'Rp ' + cash.toLocaleString('id-ID');
+        document.getElementById('conf-change').textContent = 'Rp ' + change.toLocaleString('id-ID');
+        document.getElementById('confirmation-modal').classList.add('show');
+    }
+
+    function closeConfirmation() {
+        document.getElementById('confirmation-modal').classList.remove('show');
+    }
+
+    function confirmTransaction() {
+        const cash = parseFloat(document.getElementById('cash-input').value) || 0;
+        const change = cash - grandTotal;
+        const btn = document.getElementById('confirm-btn');
+        btn.disabled = true;
+        btn.textContent = 'Memproses...';
 
         fetch('/sales/store', {
             method: 'POST',
@@ -542,13 +822,85 @@
         .then(r => r.json())
         .then(data => {
             if (data.status === 'success') {
-                showToast('Transaksi berhasil!');
-                setTimeout(() => window.location.href = '/sales', 1000);
+                closeConfirmation();
+                showReceipt(cash, change);
             } else {
+                btn.disabled = false;
+                btn.textContent = 'Proses';
                 showToast(data.message || 'Terjadi kesalahan', 'error');
             }
         })
-        .catch(() => showToast('Kesalahan koneksi!', 'error'));
+        .catch(() => {
+            btn.disabled = false;
+            btn.textContent = 'Proses';
+            showToast('Kesalahan koneksi!', 'error');
+        });
+    }
+
+    function showReceipt(cash, change) {
+        const now = new Date();
+        document.getElementById('receipt-invoice').textContent = document.getElementById('invoice-val').value;
+        document.getElementById('receipt-time').textContent = now.toLocaleString('id-ID');
+        
+        let itemsHtml = '';
+        cart.forEach(item => {
+            itemsHtml += `
+                <div class="receipt-item">
+                    <div class="receipt-item-name">${item.name}</div>
+                    <div class="receipt-item-qty">${item.qty}x</div>
+                    <div class="receipt-item-price">Rp ${item.subtotal.toLocaleString('id-ID')}</div>
+                </div>
+            `;
+        });
+        document.getElementById('receipt-items').innerHTML = itemsHtml;
+        document.getElementById('receipt-total-amount').textContent = 'Rp ' + grandTotal.toLocaleString('id-ID');
+        document.getElementById('receipt-paid-amount').textContent = 'Rp ' + cash.toLocaleString('id-ID');
+        document.getElementById('receipt-change-amount').textContent = 'Rp ' + change.toLocaleString('id-ID');
+        
+        const backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:999;';
+        document.body.appendChild(backdrop);
+        
+        document.getElementById('receipt').classList.add('show');
+    }
+
+    function doneReceipt() {
+        document.getElementById('receipt').classList.remove('show');
+        const backdrop = document.querySelector('div[style*="position:fixed"]');
+        if (backdrop && backdrop.style.background.includes('0,0,0')) {
+            backdrop.remove();
+        }
+        cart = [];
+        renderCart();
+        searchEl.value = '';
+        clearSelected();
+        searchEl.focus();
+        showToast('Transaksi berhasil disimpan!');
+    }
+
+    // Barcode scanner support
+    let barcodeBuffer = '';
+    document.addEventListener('keydown', function(e) {
+        if (e.code === 'F2' || (e.ctrlKey && e.key === 'b')) {
+            e.preventDefault();
+            document.getElementById('barcode-input').focus();
+        }
+    });
+
+    document.getElementById('barcode-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const barcode = this.value.trim();
+            if (barcode) {
+                const product = PRODUCTS.find(p => p.id.toString() === barcode || p.name.toLowerCase().includes(barcode.toLowerCase()));
+                if (product) {
+                    selectProduct(product);
+                    setTimeout(() => document.getElementById('btn-add').click(), 100);
+                } else {
+                    showToast('Produk tidak ditemukan!', 'error');
+                }
+            }
+            this.value = '';
+        }
     });
 
     let toastTimeout;

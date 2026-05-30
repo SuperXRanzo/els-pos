@@ -263,6 +263,45 @@
         }
         .btn-login:hover .btn-shine { transform: translateX(100%); }
 
+        .btn-login.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        .btn-login.loading span { opacity: 0; }
+        .loader {
+            display: none;
+            position: absolute;
+            width: 16px; height: 16px;
+            border: 2px solid rgba(10, 15, 30, 0.3);
+            border-top: 2px solid #0a0f1e;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .btn-login.loading .loader { display: block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+            20%, 40%, 60%, 80% { transform: translateX(8px); }
+        }
+        .login-box.error { animation: shake 0.5s; }
+
+        .live-clock {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--lime);
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+        .live-date {
+            font-size: 0.9rem;
+            color: var(--muted);
+            text-align: center;
+            font-family: 'DM Sans', sans-serif;
+        }
+
         .footer-note {
             text-align: center;
             margin-top: 2rem;
@@ -298,13 +337,17 @@
             </div>
         </div>
         <div class="brand-area">
-            <div class="brand-logo">ELS <span>POS</span></div>
-            <div class="brand-tagline">Point of Sale System</div>
+            <div class="live-clock" id="live-clock">--:--:--</div>
+            <div class="live-date" id="live-date">Loading...</div>
+            <div style="margin-top: 3rem;">
+                <div class="brand-logo">ELS <span>POS</span></div>
+                <div class="brand-tagline">Point of Sale System</div>
+            </div>
         </div>
     </div>
 
     <div class="right-panel">
-        <div class="login-box">
+        <div class="login-box" id="login-box">
             <h2>Selamat Datang 👋</h2>
             <p class="sub">Masuk untuk mengelola transaksi Anda</p>
 
@@ -335,9 +378,10 @@
                         </button>
                     </div>
                 </div>
-                <button type="submit" class="btn-login">
+                <button type="submit" class="btn-login" id="btn-login">
                     <span class="btn-shine"></span>
-                    Masuk ke Sistem
+                    <span>Masuk ke Sistem</span>
+                    <div class="loader"></div>
                 </button>
             </form>
 
@@ -346,9 +390,35 @@
     </div>
 
     <script>
+        // Live Clock
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const date = now.toLocaleDateString('id-ID', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+            document.getElementById('live-clock').textContent = time;
+            document.getElementById('live-date').textContent = date;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Toggle Password
         function togglePw() {
             const pw = document.getElementById('pw');
             pw.type = pw.type === 'password' ? 'text' : 'password';
+        }
+
+        // Loading State
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const btn = document.getElementById('btn-login');
+            const loginBox = document.getElementById('login-box');
+            
+            btn.classList.add('loading');
+            btn.disabled = true;
+        });
+
+        // Show shake on error if message exists
+        if (document.querySelector('.alert-msg')) {
+            document.getElementById('login-box').classList.add('error');
         }
     </script>
 </body>
